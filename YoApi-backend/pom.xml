@@ -10,10 +10,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.hupi</groupId>
-    <artifactId>hupi-backend</artifactId>
+    <artifactId>yoApi-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>hupi-backend</name>
-    <description>springboot 初始项目</description>
+    <name>yoApi-backend</name>
+    <description>yoApi</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
