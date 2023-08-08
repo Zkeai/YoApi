@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hupi.project.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.hupi.project.model.entity.User">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userName" column="userName" jdbcType="VARCHAR"/>
+            <result property="deptId" column="deptId" jdbcType="INTEGER"/>
+            <result property="userAccount" column="userAccount" jdbcType="VARCHAR"/>
+            <result property="userPassword" column="userPassword" jdbcType="VARCHAR"/>
+            <result property="userAvatar" column="userAvatar" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="isBan" column="isBan" jdbcType="TINYINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userName,deptId,
+        userAccount,userPassword,userAvatar,
+        email,phone,age,
+        gender,status,isBan,
+        createTime,updateTime,
+        isDelete
+    </sql>
+    <insert id="insertBatchRelation">
+        insert into sys_user_role (user_id,role_id) values
+        <foreach collection="roleIds" separator="," item="roleId">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+    <insert id="insertBatchPosts">
+        insert into sys_user_post (user_id,post_id) values
+        <foreach collection="postIds" separator="," item="postId">
+            (#{userId},#{postId})
+        </foreach>
+
+    </insert>
+    <update id="updateStates">
+        update user set status = #{status} where id = #{id}
+    </update>
+    <update id="updateIsBanById">
+        update user set isBan = #{isBan} where id = #{id}
+    </update>
+    <select id="getPwdById" resultType="java.lang.String">
+        SELECT userPassword from user WHERE id=#{id}
+    </select>
+    <select id="getRoleIds" resultType="java.lang.Integer">
+        SELECT role_id FROM sys_user_role WHERE user_id in
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectByPageNumSize" resultType="com.hupi.project.model.entity.User"></select>
+</mapper>
